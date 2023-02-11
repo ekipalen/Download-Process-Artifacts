@@ -4,6 +4,10 @@ Library    RPA.Robocorp.Vault
 Library    RPA.Robocorp.Process
 Library    RPA.HTTP
 
+*** Variables ***
+${workspace_id}    %{workspace_id}
+${process_id}      %{process_id}
+
 *** Tasks ***
 Download Artifacts from the Latest Process Run
     ${secrets}=  Get Secret   ProcessAPI
