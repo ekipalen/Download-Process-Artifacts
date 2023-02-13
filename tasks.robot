@@ -3,6 +3,8 @@ Documentation       Robot for downloading artifacts from the latest Control Room
 Library    RPA.Robocorp.Vault
 Library    RPA.Robocorp.Process
 Library    RPA.HTTP
+Library    RPA.Robocorp.WorkItems
+Library    RPA.Windows
 
 *** Variables ***
 ${workspace_id}    %{workspace_id}
@@ -10,9 +12,23 @@ ${process_id}      %{process_id}
 
 *** Tasks ***
 Download Artifacts from the Latest Process Run
+    #${payload}  Get the Payload
+    Get API key from the Vault
+    Download Artifacts from Control Room    #${payload}[workspace_id]   ${payload}[process_id]
+
+*** Keywords ***
+Get the Payload
+    ${payload}=    Get Work Item Payload
+    [Return]   ${payload}
+
+Get API key from the Vault
     ${secrets}=  Get Secret   ProcessAPI
+    Set Global Variable    ${secrets}
+
+Download Artifacts from Control Room
+    #[Arguments]     ${workspace_id}    ${process_id}
     Set Apikey    ${secrets}[apikey]
-    Set Workspace Id    ${secrets}[workspace_id]
+    Set Workspace Id    ${workspace_id}
     &{headers}=    Create Dictionary    Authorization    RC-WSKEY ${secrets}[apikey]
     ${result}=     RPA.HTTP.GET
     ...    url=https://api.eu1.robocorp.com/search-v1/workspaces/${workspace_id}/processes/${process_id}/runs?sortBy=createTs&sortOrder=desc&search=&from=0&size=1&processState=COMPL
@@ -37,7 +53,7 @@ Download Artifacts from the Latest Process Run
             ...    ${step_run}[processId]
             RPA.HTTP.Download
             ...    ${download_url}
-            ...    target_file=${CURDIR}${/}output${/}downloaded_${artifact}[fileName]
+            ...    target_file=${CURDIR}${/}output${/}downloaded_${step_run}[activityRunId]_${artifact}[fileName]
             ...    stream=True
         END
     END
