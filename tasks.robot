@@ -19,7 +19,8 @@ Download Artifacts from Control Room
     Set Workspace Id    ${secrets}[workspace_id]
     &{headers}=    Create Dictionary    Authorization    RC-WSKEY ${secrets}[apikey]
     ${result}=     RPA.HTTP.GET
-    ...    url=https://api.eu1.robocorp.com/search-v1/workspaces/${secrets}[workspace_id]/processes/${secrets}[process_id]/runs?sortBy=createTs&sortOrder=desc&search=&from=0&size=1&processState=COMPL
+    ...    url=https://api.eu1.robocorp.com/search-v1/workspaces/${secrets}[workspace_id]/processes/${secrets}[process_id]/runs?sortBy=createTs&sortOrder=desc&search=&from=0&size=1&processState=RUNN
+    #...    url=https://api.eu1.robocorp.com/search-v1/workspaces/${secrets}[workspace_id]/processes/${secrets}[process_id]/runs?sortBy=createTs&sortOrder=desc&search=&from=0&size=1&processState=COMPL
     ...    headers=${headers}
     ${result_json}=    Evaluate    $result.json()
     ${run_id}=    Set Variable    ${result_json}[data][0][id]
