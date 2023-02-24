@@ -29,7 +29,6 @@ Download Artifacts from Control Room
     ...    process_id=${secrets}[process_id]
     ...    include_data=True
     FOR    ${step_run}    IN    @{step_runs}
-        Log To Console    \n ${step_run}
         ${artifacts}=    List Run Artifacts
         ...    ${step_run}[processRunId]
         ...    ${step_run}[activityRunId]
