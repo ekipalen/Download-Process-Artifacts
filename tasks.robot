@@ -46,7 +46,7 @@ Download Artifacts from Control Room
             ...    target_file=${CURDIR}${/}output${/}downloaded_${step_run}[activityRunId]_${artifact}[fileName]
             ...    stream=True
             IF    '${artifact}[fileName]' == 'output.xml'
-                Add Work Item File    ${CURDIR}${/}output${/}downloaded_${step_run}[activityRunId]_${artifact}[fileName]   
+                Add Work Item File    ${CURDIR}${/}output${/}downloaded_${step_run}[activityRunId]_xml_workitem.xml   
                 Save Work Item
             END
         END
