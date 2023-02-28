@@ -3,6 +3,7 @@ Documentation       Robot for downloading artifacts from the latest Control Room
 Library    RPA.Robocorp.Vault
 Library    RPA.Robocorp.Process
 Library    RPA.HTTP
+Library    RPA.Robocorp.WorkItems
 
 *** Tasks ***
 Download Artifacts from the Latest Process Run
@@ -44,5 +45,9 @@ Download Artifacts from Control Room
             ...    ${download_url}
             ...    target_file=${CURDIR}${/}output${/}downloaded_${step_run}[activityRunId]_${artifact}[fileName]
             ...    stream=True
+            IF    '${artifact}[fileName]' == 'output.xml'
+                Add Work Item File    ${CURDIR}${/}output${/}downloaded_${step_run}[activityRunId]_${artifact}[fileName]   
+                Save Work Item
+            END
         END
     END
